@@ -164,7 +164,6 @@ const MyPage = () => {
                     accuracy={card.accuracy}
                     maxWpm={card.maxWpm}
                     avgWpm={card.avgWpm}
-                    durationMin={card.date}
                   />
                 ))}
               </div>
