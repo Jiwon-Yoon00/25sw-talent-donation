@@ -5,12 +5,12 @@ import MyPage from './pages/MyPage.jsx'
 function App() {
   return (
     <Router>
-      <Header />  {/* 상단바는 항상 보여줌 */}
+      <Header /> 
       <Routes>
         {/* <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} /> */}
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/signup" element={<Signup />} />*/}
+        <Route path="/mypage" element={<MyPage />} /> 
       </Routes>
     </Router>
   );
