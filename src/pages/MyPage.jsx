@@ -1,4 +1,5 @@
 // 마이페이지 입니다
+import { useState } from "react";
 import TypingSummaryCard from "../components/TypingSummaryCard/TypingSummaryCard";
 import TableCard from "../components/TableCard/TableCard";
 import GraphCard from "../components/GraphCard/GraphCard";
@@ -127,6 +128,11 @@ const MyPage = () => {
 
   const lastestFive = [...mockSessions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
 
+  const [days, setDays] = useState(7);
+  const handleGraphSelectChange = (e) => {
+    setDays(Number(e.target.value)); 
+  };
+
   return (
     <div>
       <div className="mypage_container">
@@ -146,12 +152,12 @@ const MyPage = () => {
               <div className="graph_header">
                 <p className="cards_title">분석 그래프</p>
 
-                <select className="graph_select">
+                <select className="graph_select" onChange={handleGraphSelectChange}>
                   <option value="7">7일</option>
                   <option value="30">30일</option>
                 </select>
               </div>
-              <GraphCard datas={mockSessions} days={7} />
+              <GraphCard datas={mockSessions} days={Number(days)} />
             </div>
             <div className="background_cards">
               <p className="cards_title">나의 연습 기록</p>

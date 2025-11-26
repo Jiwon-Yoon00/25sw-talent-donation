@@ -3,7 +3,7 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";  
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-const GraphCard = ({ datas, days = 7 }) => {
+const GraphCard = ({ datas, days }) => {
   const chartRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -103,7 +103,7 @@ const GraphCard = ({ datas, days = 7 }) => {
 
     // 10️⃣ Cleanup
     return () => {
-      root.dispose();
+      if (root) root.dispose();
     };
   }, [datas, days]);
 
