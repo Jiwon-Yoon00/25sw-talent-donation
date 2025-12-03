@@ -7,10 +7,11 @@
   background: #fff;
   border-bottom: 1px solid #666;
 }
-.header_logo {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #333;
+
+.logo-img {
+  height: 40px;  /* 원하는 높이로 설정 */
+  width: auto;   /* 비율 유지를 위해 너비는 auto */
+  display: block; /* 이미지 하단의 미세한 공백 제거 */
 }
 
 .header_nav {
