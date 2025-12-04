@@ -1,18 +1,59 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
-import logoImage from '../assets/logo.png'; // 로고 이미지 경로 (확인 필요!)
+import logoImage from '../assets/logo.png';
 
 const Login = () => {
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log('로그인 시도:', id, password);
-    // 여기에 나중에 백엔드 로그인 API 연결
-    navigate('/'); // 임시로 홈으로 이동
+
+    // 백엔드 로그인 API 연결 예시 (조정 필요)
+    /*
+    if (!id || !password) {
+      return alert("아이디와 비밀번호를 모두 입력해주세요.");
+    }
+
+    try {
+      // axios 설정
+      const response = await axios.post(
+        'http://localhost:8080/auth/login', // 백엔드 로그인 예시 주소 (팀원에게 확인)
+        {
+          username: id,  // Passport는 보통 'username'이라는 이름을 좋아합니다. (팀원 확인 필요)
+          password: password,
+        },
+        {
+          withCredentials: true, // 쿠키(세션)를 주고받겠다는 설정
+        }
+      );
+
+      // 로그인 성공 시 (200 OK)
+      if (response.status === 200) {
+        console.log("로그인 성공!");
+        // 여기서 localStorage에 토큰 저장할 필요 없음 (쿠키가 알아서 함)
+        alert("환영합니다! 타자 연습을 시작하세요.");
+        navigate('/');
+      }
+
+    } catch (error) {
+      // 에러 처리 (401 Unauthorized 등)
+      console.error("로그인 에러:", error);
+      
+      if (error.response && error.response.status === 401) {
+        alert("아이디 또는 비밀번호가 틀렸습니다.");
+      } else {
+        alert("로그인 중 문제가 발생했습니다. 서버를 확인해주세요.");
+      }
+    }
+    */
+
+    //임시로 홈으로 이동
+    navigate('/');
   };
 
   return (
