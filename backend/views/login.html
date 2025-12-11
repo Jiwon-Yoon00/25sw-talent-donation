@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self' http: https: blob:;
+  script-src 'self' 'unsafe-inline' https://cdn.dashjs.org;
+  style-src 'self' 'unsafe-inline';
+  media-src blob: http: https:;
+">
+
+    <title>Login</title>
+    <link rel="stylesheet" href="/style/style.css" />
+    <script src="https://cdn.dashjs.org/latest/modern/umd/dash.all.min.js"></script>
+</head>
+
+<body>
+    <div id="container" class="container_details">
+        <div class="profile">
+            <div class="login_image">
+                <img src="/img/login.png" alt="Login Image" style="width:300px; height: 400px;">
+            </div>
+            <div class="login_form">
+                <form action="/auth" method="post" id="makeloginform">
+                    <div class="temp">
+                        <div id="inputId" class="input_id">
+                            <input id="email" type="email" name="email" placeholder="email">
+                        </div>
+                        <div id="inputPassword" class="input_password">
+                            <input id="password" type="password" name="password" placeholder="password">
+                        </div>
+                    </div>
+                    <button id="login" type="submit" class="btn">로그인</button>
+                </form>
+            </div>
+            <div class="login_register">
+                <a id="join" href="/join" class="btn" style="color: white">회원가입</a>
+                <a id="kakaoLogin" href="/auth/kakao" class="btn" style="color: white">카카오로그인</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    </script>
+</body>
+
+</html>
