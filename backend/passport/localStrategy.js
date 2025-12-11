@@ -3,11 +3,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 
 passport.use('local',new LocalStrategy({    //서버 실행시 한번만 수행되서 local 로그인 전략을 등록함.
-    usernameField: 'email', // req.body.email에서 찾아옴.(input의 name 속성과 일치하는 이름(폼데이터가 서버로 전송되니까))
-    passwordField: 'password', // req.body.password에서 찾아옴.(input의 name 속성과 일치하는 이름(폼데이터가 서버로 전송되니까))
-}, async (email, password, done) => {
+    usernameField: 'username', // req.body.username에서 찾아옴.(frontend에서 axios로 보낼 때의 키 값)
+    passwordField: 'password', // req.body.password에서 찾아옴.(frontend에서 axios로 보낼 때의 키 값)
+}, async (username, password, done) => {
     try {
-        const authuser = await User.findOne({ where: { email } });
+        const authuser = await User.findOne({ where: { username } });
         if(authuser){
             const result = await bcrypt.compare(password, authuser.password);
             if(result){
