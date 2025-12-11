@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+const User = require('../models/user');
 
 passport.use('local',new LocalStrategy({    //서버 실행시 한번만 수행되서 local 로그인 전략을 등록함.
     usernameField: 'username', // req.body.username에서 찾아옴.(frontend에서 axios로 보낼 때의 키 값)
@@ -24,11 +25,11 @@ passport.use('local',new LocalStrategy({    //서버 실행시 한번만 수행�
 }));
 
 passport.serializeUser((user, done) => {  
-    done(null, user.id);
+    done(null, user.user_id);
 });
 
-passport.deserializeUser((id, done) => {
-    User.findOne({ where: { id } })
+passport.deserializeUser((user_id, done) => {
+    User.findOne({ where: { user_id } })
     .then(user => done(null, user))
     .catch(err => done(err));
 });

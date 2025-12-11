@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/signup', isNotLoggedIn, async (req, res, next) => {
     const { username, password, school } = req.body;
     try {
-        const exUser = await User.findOne({ where: { email } });
+        const exUser = await User.findOne({ where: { username } });
         if (!exUser) {
             const hash = await bcrypt.hash(password, 12);
             await User.create({

@@ -37,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());    //req.session 객체에 passport 정보를 저장한다.
 
 sequelize
-    .sync({ fore: false})
+    .sync({ force: false})
     .then(() => {
         console.log('데이터베이스 연결 성공');
     })
