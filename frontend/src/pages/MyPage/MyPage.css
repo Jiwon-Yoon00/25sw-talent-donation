@@ -1,0 +1,90 @@
+.mypage_container{
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex: 1;
+}
+
+
+/*메인 마이페이지*/
+.main_mypage{
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+/*나의 타자 현황*/
+
+.summary_cards{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+}
+
+.summary_cards_title {
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%;
+  text-align: left;
+  margin: 0 0 0 20px;
+
+}
+
+.summary_and_table{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.background_cards{
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  width: 600px;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
+  padding: auto;
+}
+
+/*
+그래프 카드 스타일
+*/
+
+.graph_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  margin-top: 10px;
+}
+
+.graph_select{
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #666666;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cards_title {
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.cards_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center; /* 카드만 가운데 정렬 */
+}
+
+

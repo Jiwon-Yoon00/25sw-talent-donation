@@ -1,0 +1,24 @@
+.typing-summary-card{
+  border-radius: 20px;
+  width: 230px;
+  height: 100px;
+  background-color: #739BF2;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 가운데 */
+  align-items: center;    /* 가로 가운데 */
+}
+
+.typing-summary-card-title{
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.typing-summary-card-stats{
+  font-size: 25px;
+  font-weight: bold;
+  margin: 6px 0 0 0;
+}

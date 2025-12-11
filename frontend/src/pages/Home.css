@@ -1,0 +1,68 @@
+/* 전체 레이아웃 */
+.container {
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 메인 영역 */
+.main-content {
+  width: 100%;
+  max-width: 1024px;
+  margin-top: 4rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  gap: 5rem;
+  box-sizing: border-box;
+}
+
+/* 랭킹 보드들을 감싸는 '배치' 스타일은 남김. 
+   랭킹 보드의 '모양'은 RankingBoard.css로 갔지만,
+   랭킹 보드들이 '어떻게 놓일지'는 페이지(Home)의 역할. */
+.ranking-section {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* 우측 시작하기 영역 */
+.start-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 24rem;
+}
+
+.action-btn {
+  width: 100%;
+  padding: 1.5rem;
+  background-color: #bfdbfe;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #93c5fd;
+}

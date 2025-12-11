@@ -1,0 +1,61 @@
+/* 랭킹 보드 박스 자체 */
+.ranking-board {
+  width: 16rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.ranking-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-left: 0.2rem;
+}
+
+/* 랭킹 리스트 아이템 (각 줄) */
+.ranking-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  gap: 0.8rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #eee;
+  flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-score {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* 색상 테마 (Red / Blue) */
+.ranking-board.red { background-color: #fca5a5; }
+.ranking-item.red { background-color: #f87171; }
+
+.ranking-board.blue { background-color: #93c5fd; }
+.ranking-item.blue { background-color: #60a5fa; }
