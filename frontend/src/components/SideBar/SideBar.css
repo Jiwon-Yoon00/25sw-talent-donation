@@ -1,8 +1,0 @@
-.side_bar{
-  display: flex;
-  flex-direction: column;
-  width: 300px ;
-  border-right: 1px solid #666666;
-  align-items: center;
-  text-align: center;
-}
