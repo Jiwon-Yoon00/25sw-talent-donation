@@ -55,7 +55,7 @@ const Home = () => {
             </button>
             <button 
               className="action-btn"
-              onClick={() => navigate('/practice/long')}
+              onClick={() => navigate('/long-typing-practice')}
             >
               긴글 연습
             </button>

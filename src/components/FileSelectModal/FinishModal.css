@@ -1,0 +1,112 @@
+.finish-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.finish-modal {
+  background-color: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.finish-modal h2 {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.finish-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.finish-stats > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.finish-stats > div {
+  font-weight: 500;
+}
+
+.finish-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.finish-actions button {
+  flex: 1;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.finish-actions button:first-child {
+  background-color: #4cd964;
+  color: white;
+}
+
+.finish-actions button:first-child:hover {
+  background-color: #45c459;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 217, 100, 0.3);
+}
+
+.finish-actions button:last-child {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.finish-actions button:last-child:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
