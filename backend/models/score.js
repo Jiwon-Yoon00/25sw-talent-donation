@@ -3,24 +3,32 @@ const Sequelize = require('sequelize');
 module.exports = class Score extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
-            avg_speed: {
+            user_id: {
+                type: Sequelize.STRING(40),
+                allowNull: false,
+            },
+            avgWpm: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
-            max_speed: {
+            maxWpm: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
-            accuracy: {
+            elapsedTime: {
                 type: Sequelize.FLOAT,
+                allowNull: false,
+            },
+            type: {
+                type: Sequelize.STRING(20),
                 allowNull: false,
             }
         },{
             sequelize,
             timestamps: true,
             underscored: true,
-            modelName: 'User',
-            tableName: 'users',
+            modelName: 'Score',
+            tableName: 'scores',
             paranoid: true,
             charset: 'utf8',
             collate: 'utf8_general_ci',
@@ -28,7 +36,9 @@ module.exports = class Score extends Sequelize.Model {
     }
     static associate(db) {
         db.Score.belongsTo(db.User, {
-            foreignkey: 'user_id'
+            foreignKey: 'user_id',
+            targetKey: 'user_id',
+            as: 'user'
         });
     }
 };

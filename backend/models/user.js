@@ -12,7 +12,7 @@ module.exports = class User extends Sequelize.Model {
                 type: Sequelize.STRING(50),
                 allowNull: false,
             },
-            team: {
+            school: {
                 type: Sequelize.STRING(20),
                 allowNull: true,
             },
@@ -28,6 +28,6 @@ module.exports = class User extends Sequelize.Model {
         });
     }
     static associate(db) {
-        db.User.hasMany(db.Score);
+        db.User.hasMany(db.Score, { foreignKey: 'user_id', sourceKey: 'user_id', as: 'scores'});
     }
 };

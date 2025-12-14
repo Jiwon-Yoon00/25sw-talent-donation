@@ -6,6 +6,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares')
 
 const router = express.Router();
 
+//Login, Sineup, Logout을 담당하는 라우터입니다.
 router.post('/signup', isNotLoggedIn, async (req, res, next) => {
     const { username, password, school } = req.body;
     try {
