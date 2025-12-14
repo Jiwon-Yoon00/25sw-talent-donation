@@ -49,7 +49,7 @@ const Home = () => {
           <div className="button-group">
             <button 
               className="action-btn"
-              onClick={() => navigate('/practice/word')}
+              onClick={() => navigate('/word-typing-practice')}
             >
               낱말 연습
             </button>
