@@ -33,6 +33,8 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
         return next(err);
     }
 })
+
+// auth/login으로 post 요청(아이디, 패스워드) 보내주시면 여기서 처리합니다.
 router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (authError, user, info) => {
         if (authError) {
@@ -56,10 +58,11 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
     })(req, res, next);
 });
 
+//get /auth/logout 요청해주시면 로그아웃 처리하고 session을 종료합니다.
 router.get('/logout', isLoggedIn, (req, res) => {
     req.logout();
     req.session.destroy();
     // 프런트에 json 형태로 session 종료 알림 전송
-    res.json({ message: '로그아웃 되었습니다.' });
+    res.status(201).json({ message: '로그아웃 되었습니다.' });
 });
 module.exports = router;
