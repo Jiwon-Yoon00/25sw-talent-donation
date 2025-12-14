@@ -97,7 +97,6 @@ const Word = () => {
       maxWpm: maxWpm,
       elapsedTime: Math.floor(elapsedTime / 1000),
       accuracy: accuracy,
-      wrongTyped: wrongTypedRef.current,
       type: "word",
     };
   }
