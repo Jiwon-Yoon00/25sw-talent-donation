@@ -211,7 +211,10 @@ const LongTypingPractice = () => {
     if (rafRef.current) return;
 
     rafRef.current = requestAnimationFrame(() => {
-      setCharStates([...charStatesRef.current]);
+      // 각 줄의 상태 배열도 복사하여 참조 변경 (React.memo 리렌더링 보장)
+      setCharStates(charStatesRef.current.map(lineStates => 
+        lineStates ? [...lineStates] : []
+      ));
       rafRef.current = null;
     });
   }

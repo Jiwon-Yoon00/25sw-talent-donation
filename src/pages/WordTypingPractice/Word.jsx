@@ -467,9 +467,13 @@ const Word = () => {
 
     // 단어 완료 시 다음 단어로 이동 (조합 중이 아닐 때만)
     if (!isComposing && value === target && value.length > 0) {
+      // 이벤트 객체를 비동기적으로 사용하지 않도록 값 캡처
+      const capturedValue = value;
+      const capturedTarget = target;
       setTimeout(() => {
-        const currentValue = e.target.value;
-        if (currentValue === target && currentValue.length > 0) {
+        // inputRef를 통해 현재 값을 확인 (이벤트 객체 대신)
+        const currentValue = inputRef.current?.value || capturedValue;
+        if (currentValue === capturedTarget && currentValue.length > 0) {
           handleComplete();
         }
       }, 100);
