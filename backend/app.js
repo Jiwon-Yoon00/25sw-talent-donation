@@ -44,14 +44,10 @@ sequelize
     .catch((err) => {
         console.error(err);
     });
-    
+
 const authRouter = require('./routes/auth');
-const pageRouter = require('./routes/page');
-const playRouter = require('./routes/play');
 const userboardRouter = require('./routes/userboard');
 app.use('/auth', authRouter);
-app.use('/', pageRouter);
-// app.use('/play', playRouter);
 app.use('/api', userboardRouter);
 
 app.use((req, res, next) => {
