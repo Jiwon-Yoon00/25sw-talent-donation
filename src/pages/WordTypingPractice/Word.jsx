@@ -443,20 +443,23 @@ const Word = () => {
       setStartTime(now);
     }
 
-    // 입력 타수 증가
-    totalTypedRef.current += 1;
-
-    // 마지막 입력 글자 판정
-    const idx = value.length - 1;
-    const typedChar = value[idx];
-    const targetChar = target[idx];
+    // 실제 추가된 글자 수 계산 (붙여넣기나 IME 커밋 대응)
+    const addedLength = value.length - prev.length;
+    
+    // 입력 타수 증가 (실제 추가된 글자 수만큼)
+    totalTypedRef.current += addedLength;
 
     setUserInput(value);
 
-    // 글자 정확도 판정 및 상태 업데이트
-    if (typedChar && targetChar) {
-      const result = judgeChar(typedChar, targetChar);
-      updateCharState(idx, result);
+    // 추가된 모든 글자에 대해 판정 및 상태 업데이트
+    for (let i = prev.length; i < value.length; i++) {
+      const typedChar = value[i];
+      const targetChar = target[i];
+      
+      if (typedChar && targetChar) {
+        const result = judgeChar(typedChar, targetChar);
+        updateCharState(i, result);
+      }
     }
 
     // 통계 업데이트
@@ -487,10 +490,26 @@ const Word = () => {
       setCharStates([]);
     } else {
       // 모든 단어 완료 시 연습 완료 처리
+      // 타이머 중지 전에 최종 경과 시간 계산
+      let finalElapsedTime = elapsedTime;
+      if (startTimeRef.current) {
+        finalElapsedTime = Date.now() - startTimeRef.current;
+        setElapsedTime(finalElapsedTime);
+      }
       setStartTime(null);
       startTimeRef.current = null;
       
-      sendPracticeResult(buildPracticePayload());
+      // 최종 경과 시간을 사용하여 페이로드 생성
+      const payload = {
+        avgWpm: finalElapsedTime > 0 ? Math.round(totalTypedRef.current / (finalElapsedTime / 60000)) : 0,
+        maxWpm: maxWpm,
+        elapsedTime: Math.floor(finalElapsedTime / 1000),
+        accuracy: accuracy,
+        wrongTyped: wrongTypedRef.current,
+        type: "word",
+      };
+      
+      sendPracticeResult(payload);
       setShowFinishModal(true);
     }
   }
