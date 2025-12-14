@@ -1,0 +1,33 @@
+.long-typing-practice-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  flex: 1;
+}
+
+.typing-practice-main {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.typing-practice-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tp-page-info {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+.tp-lines-wrapper {
+  font-size: 18px;
+  line-height: 1.6;
+}
