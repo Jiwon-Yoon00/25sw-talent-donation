@@ -7,6 +7,8 @@ const { isLoggedIn, checkType } = require('./middlewares')
 const router = express.Router();
 
 //프런트의 DB 요청을 처리하는 라우터입니다.
+
+//랭킹정보를 요청했을때, 상위 10명을 반환합니다.
 router.get('/info', isLoggedIn, async (req, res, next) => {
     try {
         const school = req.user.school;
@@ -15,14 +17,15 @@ router.get('/info', isLoggedIn, async (req, res, next) => {
                 'user_id',
                 [fn('MAX', col('avg_wpm')), 'maxAvgWpm'],
             ],
-            include: [{
-                model: User,
-                as: 'user',
-                attributes: ['username', 'name', 'school'],
-                where: { school },
-                required: true,
-            }],
-            group: ['Score.user_id', 'user.user_id', 'user.school'],
+            // include: [{
+            //     model: User,
+            //     as: 'user',
+            //     attributes: ['username', 'name', 'school'],
+            //     where: { school },
+            //     required: true,
+            // }],
+            // group: ['Score.user_id', 'user.user_id', 'user.school'],
+            group: ['Score.user_id'],
             order: [[literal('maxAvgWpm'), 'DESC']],
             limit: 10,
             raw: true,
@@ -35,6 +38,8 @@ router.get('/info', isLoggedIn, async (req, res, next) => {
     }
 });
 
+//긴 글, 짧은 글(long, short) 타입별로 요약(통계)정보를 반환합니다.
+//프런트에서 요청해주실 때, api/summaryCards/short나 api/summaryCards/long 형태로 요청해주시면 됩니다.
 router.get('/summaryCards/:type', isLoggedIn, checkType, async (req, res, next) => {
   try {
     const { type } = req.params;
@@ -61,7 +66,7 @@ router.get('/summaryCards/:type', isLoggedIn, checkType, async (req, res, next) 
   }
 });
 
-
+//api/practice 경로로 post 요청해주시면, 해당 요청을 받아서 데이터베이스에 저장합니다.
 router.post('/practice', isLoggedIn, async (req, res, next) => {
     try {
         const { avgWpm, maxWpm, elapsedTime, type } = req.body;

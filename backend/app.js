@@ -44,6 +44,7 @@ sequelize
     .catch((err) => {
         console.error(err);
     });
+    
 const authRouter = require('./routes/auth');
 const pageRouter = require('./routes/page');
 const playRouter = require('./routes/play');
