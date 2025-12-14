@@ -321,6 +321,15 @@ const LongTypingPractice = () => {
       return;
     }
 
+    // 입력 길이 제한: 목표 길이를 초과하지 않도록 제한
+    if (value.length > target.length) {
+      // 초과 입력 시 자동으로 다음 줄로 이동
+      if (!isComposing && prev.length === target.length) {
+        moveToNextLine(prev);
+      }
+      return;
+    }
+
     // 첫 입력 시 타이머 시작
     if (!startTimeRef.current) {
       const now = Date.now();
@@ -328,20 +337,23 @@ const LongTypingPractice = () => {
       setStartTime(now);
     }
 
-    // 입력 타수 증가
-    totalTypedRef.current += 1;
-
-    // 마지막 입력 글자 판정
-    const idx = value.length - 1;
-    const typedChar = value[idx];
-    const targetChar = target[idx];
+    // 실제 추가된 글자 수 계산 (붙여넣기나 IME 커밋 대응)
+    const addedLength = value.length - prev.length;
+    
+    // 입력 타수 증가 (실제 추가된 글자 수만큼)
+    totalTypedRef.current += addedLength;
 
     setUserInput(value);
 
-    // 글자 정확도 판정 및 상태 업데이트
-    if (typedChar && targetChar) {
-      const result = judgeChar(typedChar, targetChar);
-      updateCharState(currentLine, idx, result);
+    // 추가된 모든 글자에 대해 판정 및 상태 업데이트
+    for (let i = prev.length; i < value.length; i++) {
+      const typedChar = value[i];
+      const targetChar = target[i];
+      
+      if (typedChar && targetChar) {
+        const result = judgeChar(typedChar, targetChar);
+        updateCharState(currentLine, i, result);
+      }
     }
 
     // 통계 업데이트
@@ -387,14 +399,24 @@ const LongTypingPractice = () => {
 
     // 마지막 줄이면 연습 완료 처리
     if (currentLine === lines.length - 1) {
-      // 타이머 중지
+      // 타이머 중지 전에 최종 경과 시간 계산
+      let finalElapsedTime = elapsedTime;
+      if (startTimeRef.current) {
+        finalElapsedTime = Date.now() - startTimeRef.current;
+        setElapsedTime(finalElapsedTime);
+      }
       setStartTime(null);
       startTimeRef.current = null;
       
+      // 최종 경과 시간을 사용하여 페이로드 생성
+      const total = totalTypedRef.current;
+      const minutes = finalElapsedTime / 60000;
+      const avgWpm = minutes > 0 ? Math.round(total / minutes) : 0;
+      
       sendPracticeResult({
-        avgWpm: calculateAverageWpm(),
+        avgWpm: avgWpm,
         maxWpm,
-        elapsedTime: Math.floor(elapsedTime / 1000),
+        elapsedTime: Math.floor(finalElapsedTime / 1000),
         accuracy,
         type: "long",
       });
