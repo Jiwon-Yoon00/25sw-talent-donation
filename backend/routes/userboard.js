@@ -29,7 +29,7 @@ router.get('/info', isLoggedIn, async (req, res, next) => {
             order: [[literal('maxAvgWpm'), 'DESC']],
             limit: 10,
             raw: true,
-            nest: true,
+            // nest: true,
         });
         return res.status(200).json(top10)
     } catch (err) {
@@ -48,18 +48,19 @@ router.get('/summaryCards/:type', isLoggedIn, checkType, async (req, res, next) 
     const stats = await Score.findOne({
       where: { user_id, type },
       attributes: [
-        [fn('COUNT', col('id')), 'totalGames'],     
-        [fn('MAX', col('avg_wpm')), 'bestAvgWpm'],  
-        [fn('AVG', col('avg_wpm')), 'avgWpm'],
+        'user_id',
+        'avg_wpm',
+        'max_wpm',
+        'accuracy',
+        'elapsedTime',
+        'createdAt',    
       ],
-      raw: true,
+        order: [["createdAt", 'DESC']],
+        limit: 10,
+        raw: true,
     });
 
-    return res.status(200).json({
-      totalGames: Number(stats?.totalGames ?? 0),
-      bestavgWpmData: Number(stats?.bestAvgWpm ?? 0),
-      avgWpmData: Number(stats?.avgWpm ?? 0),
-    });
+    return res.status(200).json(stats);
   } catch (err) {
     console.error(err);
     return next(err);
@@ -69,12 +70,13 @@ router.get('/summaryCards/:type', isLoggedIn, checkType, async (req, res, next) 
 //api/practice 경로로 post 요청해주시면, 해당 요청을 받아서 데이터베이스에 저장합니다.
 router.post('/practice', isLoggedIn, async (req, res, next) => {
     try {
-        const { avgWpm, maxWpm, elapsedTime, type } = req.body;
+        const { avgWpm, maxWpm, elapsedTime, accuracy, type } = req.body;
         await Score.create({
             user_id: req.user.user_id,
             avgWpm,
             maxWpm,
             elapsedTime,
+            accuracy,
             type,
         });
         return res.status(201).json({
@@ -85,5 +87,31 @@ router.post('/practice', isLoggedIn, async (req, res, next) => {
         return next(err);
     }
 });
+// router.get('/summaryCards/:type', isLoggedIn, checkType, async (req, res, next) => {
+//   try {
+//     const { type } = req.params;
+//     const user_id = req.user.user_id;
 
+//     const stats = await Score.findOne({
+//       where: { user_id, type },
+//       attributes: [
+//         [fn('COUNT', col('id')), 'totalGames'],     
+//         [fn('MAX', col('avg_wpm')), 'bestAvgWpm'],  
+//         [fn('AVG', col('avg_wpm')), 'avgWpm'],
+//         [fn('AVG', col('accuracy')), 'avgAccuracy'],
+//       ],
+//       raw: true,
+//     });
+
+//     return res.status(200).json({
+//       totalGames: Number(stats?.totalGames ?? 0),
+//       bestavgWpmData: Number(stats?.bestAvgWpm ?? 0),
+//       avgWpmData: Number(stats?.avgWpm ?? 0),
+//       avgAccuracyData: Number(stats?.avgAccuracy ?? 0),
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     return next(err);
+//   }
+// });
 module.exprorts = router;

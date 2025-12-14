@@ -1,9 +1,9 @@
 // 마이페이지 입니다
 import { useState } from "react";
-import TypingSummaryCard from "../../components/TypingSummaryCard/TypingSummaryCard";
-import TableCard from "../../components/TableCard/TableCard";
-import GraphCard from "../../components/GraphCard/GraphCard";
-import SideBar from "../../components/SideBar/SideBar";
+import TypingSummaryCard from "../../components/TypingSummaryCard/TypingSummaryCard.jsx";
+import TableCard from "../../components/TableCard/TableCard.jsx";
+import GraphCard from "../../components/GraphCard/GraphCard.jsx";
+import SideBar from "../../components/SideBar/SideBar.jsx";
 import MyPageMenu from "../../components/MyPageMenu/MyPageMenu.jsx";
 import "./MyPage.css";
 

@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header/Header'
+import Header from './components/Header/Header.jsx'
 import MyPage from './pages/MyPage/MyPage.jsx'
 import Home from './pages/Home.jsx'
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-// import LongTypingPractice from './pages/LongTypingPractice/LongTypingPractice.jsx'
+import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
+import LongTypingPractice from './pages/LongTypingPractice/LongTypingPractice.jsx'
+import WordTypingPractice from './pages/WordTypingPractice/Word.jsx'
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/mypage" element={<MyPage />} /> 
-        {/* <Route path="/long-typing-practice" element={<LongTypingPractice />} /> */}
+        <Route path="/long-typing-practice" element={<LongTypingPractice />} />
+        <Route path="/word-typing-practice" element={<WordTypingPractice />} />
+
       </Routes>
     </Router>
   );

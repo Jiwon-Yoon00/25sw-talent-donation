@@ -16,7 +16,11 @@ module.exports = class Score extends Sequelize.Model {
                 allowNull: false,
             },
             elapsedTime: {
-                type: Sequelize.FLOAT,
+                type: Sequelize.INTEGER,
+                allowNull: false,
+            },
+            accuracy: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
             },
             type: {
