@@ -1,134 +1,107 @@
-// 마이페이지 입니다
-import { useState } from "react";
-import TypingSummaryCard from "../../components/TypingSummaryCard/TypingSummaryCard.jsx";
-import TableCard from "../../components/TableCard/TableCard.jsx";
-import GraphCard from "../../components/GraphCard/GraphCard.jsx";
-import SideBar from "../../components/SideBar/SideBar.jsx";
-import MyPageMenu from "../../components/MyPageMenu/MyPageMenu.jsx";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import TypingSummaryCard from "@/components/TypingSummaryCard/TypingSummaryCard";
+import TableCard from "@/components/TableCard/TableCard";
+import GraphCard from "@/components/GraphCard/GraphCard";
+import SideBar from "@/components/SideBar/SideBar";
+import MyPageMenu from "@/components/MyPageMenu/MyPageMenu.jsx";
 import "./MyPage.css";
 
 const MyPage = () => {
-  const summaryCards = [
-    { title: "평균 타자", stats: "120", type: "긴글 연습" },
-    { title: "최고 타자", stats: "140", type: "긴글 연습" },
-    { title: "정확도", stats: "100%", type: "긴글 연습" },
-    { title: "연습 시간", stats: "12시간", type: "긴글 연습" },
-  ];
 
-  const mockSessions = [
-    {
-      id: "s1",
-      date: "2025-11-24T09:12:00.000Z",
-      type: "긴글연습",
-      accuracy: 97.3,
-      maxWpm: 432,
-      avgWpm: 312,
-      durationMin: 30,
-    },
-    {
-      id: "s2",
-      date: "2025-11-23T20:05:00.000Z",
-      type: "긴글연습",
-      accuracy: 95.8,
-      maxWpm: 401,
-      avgWpm: 298,
-      durationMin: 25,
-    },
-    {
-      id: "s3",
-      date: "2025-11-22T18:40:00.000Z",
-      type: "긴글연습",
-      accuracy: 92.1,
-      maxWpm: 365,
-      avgWpm: 280,
-      durationMin: 20,
-    },
-    {
-      id: "s4",
-      date: "2025-11-21T07:30:00.000Z",
-      type: "긴글연습",
-      accuracy: 99.0,
-      maxWpm: 350,
-      avgWpm: 330,
-      durationMin: 45,
-    },
-    {
-      id: "s5",
-      date: "2025-11-20T22:10:00.000Z",
-      type: "긴글연습",
-      accuracy: 88.5,
-      maxWpm: 320,
-      avgWpm: 240,
-      durationMin: 15,
-    },
-    {
-      id: "s6",
-      date: "2025-11-19T14:50:00.000Z",
-      type: "긴글연습",
-      accuracy: 94.6,
-      maxWpm: 378,
-      avgWpm: 290,
-      durationMin: 28,
-    },
-    {
-      id: "s7",
-      date: "2025-11-18T11:00:00.000Z",
-      type: "긴글연습",
-      accuracy: 90.2,
-      maxWpm: 345,
-      avgWpm: 265,
-      durationMin: 22,
-    },
-    {
-      id: "s8",
-      date: "2025-11-17T19:45:00.000Z",
-      type: "긴글연습",
-      accuracy: 96.7,
-      maxWpm: 305,
-      avgWpm: 305,
-      durationMin: 32,
-    },
-    {
-      id: "s9",
-      date: "2025-11-16T08:20:00.000Z",
-      type: "긴글연습",
-      accuracy: 89.9,
-      maxWpm: 330,
-      avgWpm: 250,
-      durationMin: 18,
-    },
-    {
-      id: "s10",
-      date: "2025-11-15T21:15:00.000Z",
-      type: "긴글연습",
-      accuracy: 93.4,
-      maxWpm: 360,
-      avgWpm: 275,
-      durationMin: 26,
-    },
-    {
-      id: "s11",
-      date: "2025-11-14T16:00:00.000Z",
-      type: "긴글연습",
-      accuracy: 98.1,
-      maxWpm: 440,
-      avgWpm: 322,
-      durationMin: 40,
-    },
-    {
-      id: "s12",
-      date: "2025-11-13T10:30:00.000Z",
-      type: "긴글연습",
-      accuracy: 86.7,
-      maxWpm: 300,
-      avgWpm: 230,
-      durationMin: 12,
-    },
-  ];
-
-  const lastestFive = [...mockSessions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
-
+  const [userId, setUserId] = useState("");
+  const [summary, setSummary] = useState({
+    avgWpm: 0,
+    bestMaxWpm: 0,
+    avgAccuracy: 0,
+    practiceTime: 0,
+  });
+  const [summaryLoading, setSummaryLoading] = useState(true);
+  const [summaryError, setSummaryError] = useState(null);
+  const [practiceRecords, setPracticeRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [days, setDays] = useState(7);
+
+  // 요약 카드(TypingSummaryCard)용 통계 데이터 조회
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        setSummaryLoading(true);
+        setSummaryError(null);
+
+        const res = await axios.get("http://localhost:8080/api/summaryCard/long", {
+          withCredentials: true,
+        });
+
+        setSummary({
+          avgWpm: Number(res.data?.avgWpm ?? 0),
+          bestMaxWpm: Number(res.data?.bestMaxWpm ?? 0),
+          avgAccuracy: Number(res.data?.avgAccuracy ?? 0),
+          practiceTime: Number(res.data?.practiceTime ?? 0),
+        });
+      } catch (err) {
+        console.error("요약 카드 조회 실패:", err);
+      } finally {
+        setSummaryLoading(false);
+      }
+    };
+
+    fetchSummary();
+  }, []);
+
+  // 그래프/테이블용 연습 기록 조회
+  useEffect(() => {
+    const fetchPracticeRecords = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const res = await axios.get(
+          "http://localhost:8080/api/practiceRecord/long",
+          {
+            withCredentials: true, 
+          }
+        );
+
+        // findOne 이면 객체, findAll 이면 배열이 들어올 수 있으므로 통일 처리
+        const raw = res.data;
+        const list = Array.isArray(raw) ? raw : raw ? [raw] : [];
+
+        // 첫 번째 기록에서 user_id 추출 → 사이드바 프로필에 표시
+        if (list.length > 0 && list[0].user_id) {
+          setUserId(list[0].user_id);
+        }
+
+        // 그래프/테이블에서 바로 사용할 수 있도록 필드 형태 변환
+        const mapped = list.map((item, idx) => ({
+          id: item.user_id ?? item.id ?? idx,
+          date: item.createdAt, // createdAt → date
+          type: item.type ?? "긴글연습",
+          accuracy: item.accuracy,
+          maxWpm: item.max_wpm,
+          avgWpm: item.avg_wpm,
+          durationMin:
+            typeof item.elapsedTime === "number"
+              ? Math.round(item.elapsedTime / 60)
+              : undefined,
+        }));
+
+        setPracticeRecords(mapped);
+      } catch (err) {
+        console.error("마이페이지 연습 기록 조회 실패:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPracticeRecords();
+  }, []);
+
+  const lastestFive = [...practiceRecords]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 5);
+
   const handleGraphSelectChange = (e) => {
     setDays(Number(e.target.value)); 
   };
@@ -136,16 +109,35 @@ const MyPage = () => {
   return (
     <div>
       <div className="mypage_container">
-        <SideBar title="마이페이지" menu={<MyPageMenu />} />
+        <SideBar title="마이페이지" menu={<MyPageMenu />} userId={userId} />
         <div className="main_mypage">
           <div className="summary_box">
             <p className="summary_cards_title">나의 타자 현황</p>
 
-            <div className="summary_cards">
-              {summaryCards.map((card) => (
-                <TypingSummaryCard title={card.title} stats={card.stats} />
-              ))}
-            </div>
+            {summaryLoading && <p>요약 정보를 불러오는 중입니다...</p>}
+            {!summaryLoading && summaryError && (
+              <p className="error_text">{summaryError}</p>
+            )}
+            {!summaryLoading && (
+              <div className="summary_cards">
+                <TypingSummaryCard
+                  title="평균 타자"
+                  stats={`${summary.avgWpm.toFixed(0)} 타`}
+                />
+                <TypingSummaryCard
+                  title="최고 타자"
+                  stats={`${summary.bestMaxWpm.toFixed(0)} 타`}
+                />
+                <TypingSummaryCard
+                  title="정확도"
+                  stats={`${summary.avgAccuracy.toFixed(1)}%`}
+                />
+                <TypingSummaryCard
+                  title="연습 시간"
+                  stats={`${Math.floor(summary.practiceTime / 60)}분`}
+                />
+              </div>
+            )}
           </div>
           <div className="summary_and_table">
             <div className="background_cards">
@@ -157,14 +149,19 @@ const MyPage = () => {
                   <option value="30">30일</option>
                 </select>
               </div>
-              <GraphCard datas={mockSessions} days={Number(days)} />
+
+              {loading && <p>연습 기록을 불러오는 중입니다...</p>}
+              {!loading && error && <p className="error_text">{error}</p>}
+              {!loading && !error && (
+                <GraphCard datas={practiceRecords} days={Number(days)} />
+              )}
             </div>
             <div className="background_cards">
               <p className="cards_title">나의 연습 기록</p>
               <div className="cards_list">
                 {lastestFive.map((card) => (
                   <TableCard
-                    key={card.date} // map 안에서는 key 필요
+                    key={card.date} 
                     type={card.type}
                     date={card.date}
                     accuracy={card.accuracy}

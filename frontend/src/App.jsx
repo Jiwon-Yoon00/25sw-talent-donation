@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header/Header.jsx'
+import Header from './components/Header/Header'
 import MyPage from './pages/MyPage/MyPage.jsx'
 import Home from './pages/Home.jsx'
-import Login from './pages/Login.jsx';
-import Signup from './pages/Signup.jsx';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import LongTypingPractice from './pages/LongTypingPractice/LongTypingPractice.jsx'
 import WordTypingPractice from './pages/WordTypingPractice/Word.jsx'
 
