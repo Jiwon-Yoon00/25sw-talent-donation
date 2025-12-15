@@ -1,89 +1,51 @@
 import { useState, useEffect, useRef } from "react";
 import "./LongTypingPractice.css";
-import SideBar from "../../components/SideBar/SideBar";
-import PracticeMenu from "../../components/PracticeMenu/PracticeMenu";
-import FileSelectModal from "../../components/FileSelectModal/FileSelectModal";
-import TypingLine from "../../components/TypingLine";
-import FinishModal from "../../components/FileSelectModal/FinishModal";
+import SideBar from "@/components/SideBar/SideBar";
+import PracticeMenu from "@/components/PracticeMenu/PracticeMenu";
+import FileSelectModal from "@/components/FileSelectModal/FileSelectModal";
+import TypingLine from "@/components/TypingLine";
+import FinishModal from "@/components/FileSelectModal/FinishModal";
 import axios from "axios";
-
-// ============================================================================
-// 상수 정의
-// ============================================================================
 
 const CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
 const JUNG = ["ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"];
 const JONG = ["", "ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
 
-/** 페이지당 표시할 줄 수 */
 const LINES_PER_PAGE = 10;
-
-/** WPM 계산을 위한 최소 경과 시간 (밀리초) */
 const MIN_ELAPSED_MS = 500;
-
-/** WPM 계산을 위한 최소 입력 글자 수 */
 const MIN_TYPED = 8;
-
-/** 합리적인 최대 WPM 값 (이상치 방지) */
 const MAX_REASONABLE_WPM = 2000;
 
 const LongTypingPractice = () => {
-  // ============================================================================
-  // 상태 관리
-  // ============================================================================
 
-  /** 연습할 텍스트 줄 배열 */
+  /** 연습 텍스트 및 입력 상태**/
   const [lines, setLines] = useState([]);
-  
-  /** 현재 입력 중인 줄 인덱스 */
   const [currentLine, setCurrentLine] = useState(0);
-
-  /** 현재 줄의 사용자 입력 */
   const [userInput, setUserInput] = useState("");
-  
-  /** 각 줄의 완료된 입력 저장 */
   const [userInputs, setUserInputs] = useState([]);
 
-  /** 한글 입력 조합 중 여부 (IME 상태) */
+  /** 한글 IME 조합 상태 */
   const [isComposing, setIsComposing] = useState(false);
 
-  /** 연습 시작 시간 (Ref) */
+  /** 시간 & 타이머 */
   const startTimeRef = useRef(null);
-  
-  /** 연습 시작 시간 (State) */
   const [startTime, setStartTime] = useState(null);
-  
-  /** 경과 시간 (밀리초) */
   const [elapsedTime, setElapsedTime] = useState(0);
 
-  /** 각 입력 필드의 ref 저장 */
+  /** 입력 통계용 ref*/
   const inputRefs = useRef({});
-
-  /** 총 입력한 글자 수 */
   const totalTypedRef = useRef(0);
-  
-  /** 오타 수 */
   const wrongTypedRef = useRef(0);
 
-  /** 현재 WPM (Words Per Minute) */
+  /** 실시간 통계 (WPM, 정확도) */
   const [currentWpm, setCurrentWpm] = useState(0);
-  
-  /** 최대 WPM */
   const [maxWpm, setMaxWpm] = useState(0);
-  
-  /** 정확도 (%) */
   const [accuracy, setAccuracy] = useState(100);
 
-  /** 각 글자의 상태 배열 (State) */
+  /** 글자 상태 */
   const [charStates, setCharStates] = useState([]);
-  
-  /** 각 글자의 상태 배열 (Ref) */
   const charStatesRef = useRef([]);
-
-  /** requestAnimationFrame ID 저장 */
   const rafRef = useRef(null);
-  
-  /** 각 줄의 오타 위치 기록 (wrongCharRef[line][idx] = true) */
   const wrongCharRef = useRef([]);
   
   /** 완료 모달 표시 여부 */
@@ -115,6 +77,7 @@ const LongTypingPractice = () => {
     try {
       await axios.post("http://localhost:8080/api/practice", payload, {
         headers: { "Content-Type": "application/json" },
+        withCredentials: true, // 세션 쿠키 전송을 위해 필요
       });
     } catch (error) {
       console.error("연습 결과 전송 실패", error);
@@ -123,8 +86,6 @@ const LongTypingPractice = () => {
 
   /**
    * 텍스트 파일을 로드하고 줄 단위로 분리
-   * @param {string} file - 파일명
-   * @returns {Promise<string[]>} 줄 단위로 분리된 텍스트 배열
    */
   async function loadFile(file) {
     const res = await fetch(`/longPracticeTxt/${file}`);
@@ -180,11 +141,6 @@ const LongTypingPractice = () => {
     return () => clearInterval(id);
   }, [startTime, showFinishModal]);
 
-  /**
-   * 밀리초를 MM:SS 형식으로 변환
-   * @param {number} time - 밀리초 단위 시간
-   * @returns {string} MM:SS 형식의 문자열
-   */
   const formatElapsedTime = (time) => {
     const minutes = Math.floor(time / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
@@ -196,7 +152,7 @@ const LongTypingPractice = () => {
   // ============================================================================
 
   /**
-   * 현재 줄로 포커스 이동
+  * 현재 줄로 포커스 이동
    */
   useEffect(() => {
     const el = inputRefs.current[currentLine];
