@@ -40,20 +40,21 @@ router.get('/info', isLoggedIn, async (req, res, next) => {
 
 //긴 글, 짧은 글(long, short) 타입별로 요약(통계)정보를 반환합니다.
 //프런트에서 요청해주실 때, api/summaryCards/short나 api/summaryCards/long 형태로 요청해주시면 됩니다.
-router.get('/practiceRecord/:type', isLoggedIn, checkType, async (req, res, next) => {
+router.get('/practiceRecord/:type', isLoggedIn, async (req, res, next) => {
   try {
-    const { type } = req.params;
+    // const { type } = req.params;
     const user_id = req.user.user_id;
 
     const stats = await Score.findOne({
-      where: { user_id, type },
+      where: { user_id },
       attributes: [
         'user_id',
         'avg_wpm',
         'max_wpm',
         'accuracy',
         'elapsedTime',
-        'createdAt',    
+        'createdAt',
+        'type',    
       ],
         order: [["createdAt", 'DESC']],
         limit: 5,
@@ -68,13 +69,13 @@ router.get('/practiceRecord/:type', isLoggedIn, checkType, async (req, res, next
 });
 
 //프런트에서 요청시, 서머리 카드 부분(파란색 카드 부분) 통계 정보 반환
-router.get('/summaryCard/:type', isLoggedIn, checkType, async (req, res, next) => {
+router.get('/summaryCard/:type', isLoggedIn, async (req, res, next) => {
   try {
-    const { type } = req.params;
+    // const { type } = req.params;
     const user_id = req.user.user_id;
 
     const stats = await Score.findOne({
-      where: { user_id, type },
+      where: { user_id },
       attributes: [
         [fn('AVG', col('avg_wpm')), 'avgWpm'],     
         [fn('MAX', col('max_wpm')), 'bestMaxWpm'],  
