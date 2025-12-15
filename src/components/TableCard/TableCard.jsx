@@ -1,6 +1,14 @@
 import './TableCard.css';
 
 const TableCard = ({ type, date, avgWpm, maxWpm, accuracy }) => {
+
+  const displayType =
+    type === "long"
+      ? "긴글 연습"
+      : type === "word"
+      ? "낱말 연습"
+      : type || "";
+
   // date를 YYYY-MM-DD HH:MM 형식으로 변환
   const formattedDate = new Date(date).toLocaleString('ko-KR', {
     year: 'numeric',
@@ -13,7 +21,7 @@ const TableCard = ({ type, date, avgWpm, maxWpm, accuracy }) => {
   return (
     <div className="table-card">
       <div className="table-card-info">
-        <p className="table-card-type">{type}</p>
+        <p className="table-card-type">{displayType}</p>
         <p className="table-card-date">{formattedDate}</p>
       </div>
       <div className="table-card-stats">
