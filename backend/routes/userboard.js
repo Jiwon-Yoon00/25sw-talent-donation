@@ -73,7 +73,7 @@ router.get('/summaryCard/:type', isLoggedIn, async (req, res, next) => {
   try {
     // const { type } = req.params;
     const user_id = req.user.user_id;
-
+    console.log('서머리카드 요청 user_id:', user_id);
     const stats = await Score.findOne({
       where: { user_id },
       attributes: [
@@ -84,7 +84,7 @@ router.get('/summaryCard/:type', isLoggedIn, async (req, res, next) => {
       ],
       raw: true,
     });
-    
+    console.log('서머리카드 통계 데이터:', stats);
     //반환하는 부분으로 각각 (로그인 유저의 전체 기록 기준 평균타수, 최고타수, 정확도 평균, 총 연습시간)을 반환합니다.
     return res.status(200).json({
       avgWpm: Number(stats?.avgWpm ?? 0),
@@ -119,4 +119,4 @@ router.post('/practice', isLoggedIn, async (req, res, next) => {
     }
 });
 
-module.exprorts = router;
+module.exports = router;

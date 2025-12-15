@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
 const morgan = require('morgan');
@@ -10,8 +11,16 @@ const passport = require('passport');
 const nunjucks = require('nunjucks');
 const { sequelize } = require('./models');
 
+
 dotenv.config();
 require('./passport/localStrategy');
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+}));
 
 app.set('port', process.env.PORT || 8008);
 app.set('view engine', 'html');
@@ -37,7 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session());    //req.session 객체에 passport 정보를 저장한다.
 
 sequelize
-    .sync({ force: false})
+    .sync({ force: true })
     .then(() => {
         console.log('데이터베이스 연결 성공');
     })

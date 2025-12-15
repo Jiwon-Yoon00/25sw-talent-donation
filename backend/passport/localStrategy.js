@@ -7,8 +7,9 @@ passport.use('local',new LocalStrategy({    //서버 실행시 한번만 수행�
     usernameField: 'username', // req.body.username에서 찾아옴.(frontend에서 axios로 보낼 때의 키 값)
     passwordField: 'password', // req.body.password에서 찾아옴.(frontend에서 axios로 보낼 때의 키 값)
 }, async (username, password, done) => {
+    const user_id = username;
     try {
-        const authuser = await User.findOne({ where: { username } });
+        const authuser = await User.findOne({ where: { user_id } });
         if(authuser){
             const result = await bcrypt.compare(password, authuser.password);
             if(result){

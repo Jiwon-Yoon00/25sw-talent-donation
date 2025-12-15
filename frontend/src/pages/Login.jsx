@@ -14,7 +14,7 @@ const Login = () => {
     console.log('로그인 시도:', id, password);
 
     // 백엔드 로그인 API 연결 예시 (조정 필요)
-    /*
+    
     if (!id || !password) {
       return alert("아이디와 비밀번호를 모두 입력해주세요.");
     }
@@ -50,7 +50,7 @@ const Login = () => {
         alert("로그인 중 문제가 발생했습니다. 서버를 확인해주세요.");
       }
     }
-    */
+    
 
     //임시로 홈으로 이동
     navigate('/');

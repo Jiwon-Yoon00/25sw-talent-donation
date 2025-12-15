@@ -9,12 +9,13 @@ const router = express.Router();
 //Login, Sineup, Logout을 담당하는 라우터입니다.
 router.post('/signup', isNotLoggedIn, async (req, res, next) => {
     const { username, password, school } = req.body;
+    const user_id = username;
     try {
-        const exUser = await User.findOne({ where: { username } });
+        const exUser = await User.findOne({ where: { user_id } });
         if (!exUser) {
             const hash = await bcrypt.hash(password, 12);
             await User.create({
-                username,
+                user_id,
                 password: hash,
                 school,
             });
@@ -32,7 +33,7 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
         console.error(err);
         return next(err);
     }
-})
+});
 
 // auth/login으로 post 요청(아이디, 패스워드) 보내주시면 여기서 처리합니다.
 router.post('/login', isNotLoggedIn, (req, res, next) => {

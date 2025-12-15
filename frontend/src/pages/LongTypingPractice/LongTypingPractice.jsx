@@ -115,6 +115,7 @@ const LongTypingPractice = () => {
     try {
       await axios.post("http://localhost:8080/api/practice", payload, {
         headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       });
     } catch (error) {
       console.error("연습 결과 전송 실패", error);

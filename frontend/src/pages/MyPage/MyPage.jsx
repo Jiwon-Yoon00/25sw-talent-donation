@@ -33,7 +33,7 @@ const MyPage = () => {
         const res = await axios.get("http://localhost:8080/api/summaryCard/long", {
           withCredentials: true,
         });
-
+        // console.log('요약 카드 조회 응답 데이터:', res.data);
         setSummary({
           avgWpm: Number(res.data?.avgWpm ?? 0),
           bestMaxWpm: Number(res.data?.bestMaxWpm ?? 0),
