@@ -20,7 +20,7 @@ module.exports = class Score extends Sequelize.Model {
                 allowNull: false,
             },
             accuracy: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.DECIMAL(6,3),
                 allowNull: false,
             },
             type: {
