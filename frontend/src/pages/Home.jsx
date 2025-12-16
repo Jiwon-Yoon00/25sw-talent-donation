@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header/Header';
 import RankingBoard from '../components/RankingBoard/RankingBoard';
+import axios from 'axios';
 import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
 
   // 데이터 (나중에 API로 대체)
+  /*
   const userRankData = [
     { name: 'id_34', score: '700타' },
     { name: 'id_20', score: '626타' },
@@ -23,6 +24,27 @@ const Home = () => {
     { name: '덕은초' },
     { name: '서울대' },
   ];
+  */
+
+  const [userRankData, setUserRankData] = useState([]);
+  const [schoolRankData, setSchoolRankData] = useState([]);
+
+  useEffect(() => {
+    // 유저 랭킹 데이터 가져오기
+    const fetchRankData = async () => {
+      try {
+        const userRes = await axios.get('http://localhost:8080/rank/users');
+        const schoolRes = await axios.get('http://localhost:8080/rank/schools');
+
+        setUserRankData(userRes.data);
+        setSchoolRankData(schoolRes.data);
+      } catch (error) {
+        console.error("랭킹 데이터 가져오기 실패:", error);
+      }
+    };
+
+    fetchRankData();
+  }, []);
 
   return (
     <div className="container">      

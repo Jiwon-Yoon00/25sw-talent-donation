@@ -109,7 +109,7 @@ const Word = () => {
     try {
       await axios.post("http://localhost:8080/api/practice", payload, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+        withCredentials: true, // 세션 쿠키 전송을 위해 필요
       });
     } catch (error) {
       console.error("연습 결과 전송 실패", error);

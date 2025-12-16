@@ -16,18 +16,6 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     
-    // 간단한 유효성 검사
-    if (password !== confirmPassword) {
-      alert('비밀번호가 일치하지 않습니다!');
-      return;
-    }
-
-    if (!id || !password || !school) {
-      alert("모든 항목을 입력해주세요.");
-      return;
-    }
-
-    
     try {
       // 서버로 회원가입 요청 보내기
       const response = await axios.post(
@@ -61,12 +49,6 @@ const Signup = () => {
         alert("회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       }
     }
-    
-
-    // 임시로 로그인 페이지 이동
-    // console.log('회원가입 시도:', { id, password, school });
-    // alert('회원가입이 완료되었습니다!');
-    // navigate('/login');
   };
 
   return (
