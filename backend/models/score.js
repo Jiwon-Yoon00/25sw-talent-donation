@@ -33,7 +33,7 @@ module.exports = class Score extends Sequelize.Model {
             underscored: true,
             modelName: 'Score',
             tableName: 'scores',
-            paranoid: true,
+            paranoid: false,
             charset: 'utf8',
             collate: 'utf8_general_ci',
         });
@@ -42,7 +42,9 @@ module.exports = class Score extends Sequelize.Model {
         db.Score.belongsTo(db.User, {
             foreignKey: 'user_id',
             targetKey: 'user_id',
-            as: 'user'
+            as: 'user',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
         });
     }
 };

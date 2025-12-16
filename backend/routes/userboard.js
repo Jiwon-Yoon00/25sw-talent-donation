@@ -11,7 +11,7 @@ const router = express.Router();
 //랭킹정보를 요청했을때, 상위 10명을 반환합니다.
 router.get('/info', isLoggedIn, async (req, res, next) => {
     try {
-        const school = req.user.school;
+        // const school = req.user.school;
         const top10 = await Score.findAll({
             attributes: [
                 'user_id',
@@ -24,7 +24,6 @@ router.get('/info', isLoggedIn, async (req, res, next) => {
             //     where: { school },
             //     required: true,
             // }],
-            // group: ['Score.user_id', 'user.user_id', 'user.school'],
             group: ['Score.user_id'],
             order: [[literal('maxAvgWpm'), 'DESC']],
             limit: 10,
@@ -40,7 +39,7 @@ router.get('/info', isLoggedIn, async (req, res, next) => {
 
 //긴 글, 짧은 글(long, short) 타입별로 요약(통계)정보를 반환합니다.
 //프런트에서 요청해주실 때, api/summaryCards/short나 api/summaryCards/long 형태로 요청해주시면 됩니다.
-router.get('/practiceRecord/:type', isLoggedIn, async (req, res, next) => {
+router.get('/practiceRecord', isLoggedIn, async (req, res, next) => {
   try {
     // const { type } = req.params;
     const user_id = req.user.user_id;
@@ -69,7 +68,7 @@ router.get('/practiceRecord/:type', isLoggedIn, async (req, res, next) => {
 });
 
 //프런트에서 요청시, 서머리 카드 부분(파란색 카드 부분) 통계 정보 반환
-router.get('/summaryCard/:type', isLoggedIn, async (req, res, next) => {
+router.get('/summaryCard', isLoggedIn, async (req, res, next) => {
   try {
     // const { type } = req.params;
     const user_id = req.user.user_id;

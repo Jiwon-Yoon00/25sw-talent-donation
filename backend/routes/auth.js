@@ -58,12 +58,37 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         });
     })(req, res, next);
 });
+//delete /auth/quit 요청해주시면 해당 유저 삭제하고 로그아웃한 뒤 session도 삭제합니다.
+router.delete('/quit', isLoggedIn, async (req, res, next) => {
+    const user_id = req.user.user_id;
+    try{
+        await User.destroy({
+            where:{ user_id }
+        });
+        req.logout((err) => {
+            if(err) return next(err);
+            req.session.destroy((err2) => {
+                if(err2) return next(err2);
+                res.clearCookie('connect.sid');
+                return res.status(200).json({ message: '회원탈퇴가 완료되었습니다.' });
+            });
+        });   
+    }catch(err){
+        console.error(err);
+        next(err);
+    }
+});
 
 //get /auth/logout 요청해주시면 로그아웃 처리하고 session을 종료합니다.
 router.get('/logout', isLoggedIn, (req, res) => {
-    req.logout();
-    req.session.destroy();
-    // 프런트에 json 형태로 session 종료 알림 전송
-    res.status(201).json({ message: '로그아웃 되었습니다.' });
+    req.logout((err) => {
+        if(err) return next(err);
+        req.session.destroy((err2) => {
+            if(err2) return next(err2);
+            
+            res.clearCookie('connect.sid');
+            return res.status(200).json({ message: '회원탈퇴가 완료되었습니다.' });
+        });
+    });  
 });
 module.exports = router;
