@@ -31,7 +31,7 @@ const Word = () => {
   // ============================================================================
   // 상태 관리
   // ============================================================================
-
+  const hasSubmittedRef = useRef(false);
   /** 연습할 단어 배열 */
   const [words, setWords] = useState([]);
   
@@ -150,6 +150,7 @@ const Word = () => {
     totalTypedRef.current = 0;
     wrongTypedRef.current = 0;
     charStatesRef.current = [];
+    hasSubmittedRef.current = false;
 
     // 타이머 초기화
     startTimeRef.current = null;
@@ -485,6 +486,7 @@ const Word = () => {
    * 다음 단어로 이동하거나 연습 완료 처리
    */
   function handleComplete() {
+    if (hasSubmittedRef.current) return;
     // 다음 단어로 이동
     if (currentWordIndex < words.length - 1) {
       setCurrentWordIndex(prev => prev + 1);
@@ -495,6 +497,7 @@ const Word = () => {
     } else {
       // 모든 단어 완료 시 연습 완료 처리
       // 타이머 중지 전에 최종 경과 시간 계산
+      hasSubmittedRef.current = true;
       let finalElapsedTime = elapsedTime;
       if (startTimeRef.current) {
         finalElapsedTime = Date.now() - startTimeRef.current;
