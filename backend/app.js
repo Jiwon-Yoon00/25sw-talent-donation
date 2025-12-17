@@ -8,7 +8,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const passport = require('passport');
-const nunjucks = require('nunjucks');
 const { sequelize } = require('./models');
 
 
@@ -21,13 +20,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 }));
-
 app.set('port', process.env.PORT || 8008);
-app.set('view engine', 'html');
-nunjucks.configure('views', {
-    express: app,
-    watch: true,
-});
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());

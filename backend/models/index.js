@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.js')[env];
 
-const User = require('./user');
-const Score = require('./score');
+const User = require('./user.js');
+const Score = require('./score.js');
 
 const db = {};
 const sequelize = new Sequelize(

@@ -9,7 +9,7 @@ const router = express.Router();
 //프런트의 DB 요청을 처리하는 라우터입니다.
 
 //랭킹정보를 요청했을때, 상위 10명을 반환합니다.
-router.get('/rank', isLoggedIn, async (req, res, next) => {
+router.get('/rank', async (req, res, next) => {
     try {
         // const school = req.user.school;
         const top10 = await Score.findAll({

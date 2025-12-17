@@ -28,6 +28,6 @@ module.exports = class User extends Sequelize.Model {
         });
     }
     static associate(db) {
-        db.User.hasMany(db.Score, { foreignKey: 'user_id', sourceKey: 'user_id', as: 'scores', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+        db.User.hasMany(db.Score, { foreignKey: 'user_id', sourceKey: 'user_id', as: 'scores', onDelete: 'CASCADE'});
     }
 };

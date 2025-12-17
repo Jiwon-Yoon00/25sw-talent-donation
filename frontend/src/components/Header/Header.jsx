@@ -18,7 +18,7 @@ const Header = () => {
         });
 
         if (response.status === 200 && response.data) {
-          setIsLoggedIn(response.data);
+          setIsLoggedIn(response.data.isLoggedIn);
         }
       } catch (error) {
         console.error("로그인 상태 확인 실패:", error);

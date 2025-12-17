@@ -44,7 +44,6 @@ module.exports = class Score extends Sequelize.Model {
             targetKey: 'user_id',
             as: 'user',
             onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
         });
     }
 };
