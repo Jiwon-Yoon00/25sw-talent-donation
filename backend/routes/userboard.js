@@ -56,7 +56,7 @@ router.get('/practiceRecord', isLoggedIn, async (req, res, next) => {
         'type',    
       ],
         order: [["createdAt", 'DESC']],
-        limit: 5,
+        limit: 30,
         raw: true,
     });
 
