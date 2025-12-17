@@ -3,7 +3,6 @@ import "./LongTypingPractice.css";
 import SideBar from "@/components/SideBar/SideBar";
 import PracticeMenu from "@/components/PracticeMenu/PracticeMenu";
 import FileSelectModal from "@/components/FileSelectModal/FileSelectModal";
-import TypingLine from "@/components/TypingLine";
 import FinishModal from "@/components/FileSelectModal/FinishModal";
 import axios from "axios";
 
@@ -268,6 +267,7 @@ export default function LongTypingPractice() {
     }
   }, [currentLine]);
   
+  
 
 
   /**줄 이동 & 종료 */
@@ -341,26 +341,41 @@ export default function LongTypingPractice() {
             {pageLines.map((line, idx) => {
               const lineIndex = currentPage * LINES_PER_PAGE + idx;
               const isCurrent = lineIndex === currentLine;
+              const lineValue = isCurrent ? userInput : userInputs[lineIndex] || "";
+              const lineStates = charStates[lineIndex];
       
               return (
-                <TypingLine
-                  key={lineIndex}
-                  line={line}
-                  isCurrent={isCurrent}
-                  value={isCurrent ? userInput : userInputs[lineIndex] || ""}
-                  states={charStates[lineIndex]}
-                  inputRef={el => (inputRefs.current[lineIndex] = el)}
-                  onChange={handleChange}
-                  onKeyDown={handleKeyDown}
-                  onCompositionStart={handleCompositionStart}
-                  onCompositionEnd={handleCompositionEnd}
-                />
+                <div key={lineIndex} className={`tp-line ${isCurrent ? "tp-current" : ""}`}>
+                  <div className="tp-highlight-line">
+                    {line.split("").map((ch, i) => {
+                      let cls = "tp-char";
+                      if (lineStates?.[i] === "correct") cls += " tp-correct";
+                      if (lineStates?.[i] === "wrong") cls += " tp-wrong";
+                      return (
+                        <span key={i} className={cls}>
+                          {ch}
+                        </span>
+                      );
+                    })}
+                  </div>
+                    <input
+                      ref={el => (inputRefs.current[lineIndex] = el)}
+                      className="tp-input"
+                      value={lineValue}
+                      readOnly={!isCurrent}
+                      onChange={isCurrent ? handleChange : undefined}
+                      onKeyDown={isCurrent ? handleKeyDown : undefined}
+                      onCompositionStart={isCurrent ? handleCompositionStart : undefined}
+                      onCompositionEnd={isCurrent ? handleCompositionEnd : undefined}
+                      spellCheck={false}
+                      autoComplete="off"
+                    />
+                </div>
               );
             })}
           </div>
         </div>
       </div>
-
 
       <FileSelectModal isOpen={lines.length === 0} onFileSelect={handleFileSelect} />
 
