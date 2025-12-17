@@ -44,7 +44,7 @@ router.get('/practiceRecord', isLoggedIn, async (req, res, next) => {
     // const { type } = req.params;
     const user_id = req.user.user_id;
 
-    const stats = await Score.findOne({
+    const stats = await Score.findAll({
       where: { user_id },
       attributes: [
         'user_id',
@@ -94,6 +94,18 @@ router.get('/summaryCard', isLoggedIn, async (req, res, next) => {
   } catch (err) {
     console.error(err);
     return next(err);
+  }
+});
+//프런트에서 로그인상태를 확인하고자 할때 사용할 api
+router.get('/check', (req, res) => {
+  if(req.isAuthenticated()){
+    res.status(200).json({
+      isLoggedIn: true,
+    });
+  }else{
+    res.status(200).json({
+      isLoggedIn: false,
+    });    
   }
 });
 
