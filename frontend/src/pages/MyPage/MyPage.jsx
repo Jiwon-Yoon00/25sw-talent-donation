@@ -29,7 +29,7 @@ const MyPage = () => {
         setSummaryLoading(true);
         setSummaryError(null);
 
-        const res = await axios.get("http://localhost:8080/api/summaryCard/long", {
+        const res = await axios.get("http://localhost:8080/api/summaryCard", {
           withCredentials: true,
         });
 
@@ -56,7 +56,7 @@ const MyPage = () => {
         setError(null);
 
         const res = await axios.get(
-          "http://localhost:8080/api/practiceRecord/long",
+          "http://localhost:8080/api/practiceRecord",
           {
             withCredentials: true, 
           }
