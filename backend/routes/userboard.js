@@ -9,7 +9,7 @@ const router = express.Router();
 //프런트의 DB 요청을 처리하는 라우터입니다.
 
 //랭킹정보를 요청했을때, 상위 10명을 반환합니다.
-router.get('/info', isLoggedIn, async (req, res, next) => {
+router.get('/rank', isLoggedIn, async (req, res, next) => {
     try {
         // const school = req.user.school;
         const top10 = await Score.findAll({
@@ -94,18 +94,6 @@ router.get('/summaryCard', isLoggedIn, async (req, res, next) => {
   } catch (err) {
     console.error(err);
     return next(err);
-  }
-});
-//프런트에서 로그인상태를 확인하고자 할때 사용할 api
-router.get('/check', (req, res) => {
-  if(req.isAuthenticated()){
-    res.status(200).json({
-      isLoggedIn: true,
-    });
-  }else{
-    res.status(200).json({
-      isLoggedIn: false,
-    });    
   }
 });
 

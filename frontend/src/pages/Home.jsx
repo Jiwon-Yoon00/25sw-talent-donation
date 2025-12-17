@@ -33,11 +33,16 @@ const Home = () => {
     // 유저 랭킹 데이터 가져오기
     const fetchRankData = async () => {
       try {
-        const userRes = await axios.get('http://localhost:8080/rank/users');
-        const schoolRes = await axios.get('http://localhost:8080/rank/schools');
+        const userRes = await axios.get(
+          'http://localhost:8080/api/rank',
+          {
+            withCredentials:true,
+          }
+        );
+        // const schoolRes = await axios.get('http://localhost:8080/rank/schools');
 
         setUserRankData(userRes.data);
-        setSchoolRankData(schoolRes.data);
+        // setSchoolRankData(schoolRes.data);
       } catch (error) {
         console.error("랭킹 데이터 가져오기 실패:", error);
       }

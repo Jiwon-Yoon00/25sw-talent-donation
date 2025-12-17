@@ -79,6 +79,19 @@ router.delete('/quit', isLoggedIn, async (req, res, next) => {
     }
 });
 
+//프런트에서 로그인상태를 확인하고자 할때 사용할 api
+router.get('/check', (req, res) => {
+  if(req.isAuthenticated()){
+    res.status(200).json({
+      isLoggedIn: true,
+    });
+  }else{
+    res.status(200).json({
+      isLoggedIn: false,
+    });    
+  }
+});
+
 //get /auth/logout 요청해주시면 로그아웃 처리하고 session을 종료합니다.
 router.get('/logout', isLoggedIn, (req, res) => {
     req.logout((err) => {
