@@ -11,8 +11,8 @@ const RankingBoard = ({ title, color, icon, data }) => {
         <div key={index} className={`ranking-item ${color}`}>
           <div className="avatar" />
           <div className="user-info">
-            <div className="user-name">{item.name}</div>
-            {item.score && <div className="user-score">{item.score}</div>}
+            <div className="user-name">{item.user_id}</div>
+            {item.maxAvgWpm && <div className="user-score">{item.maxAvgWpm}</div>}
           </div>
         </div>
       ))}
