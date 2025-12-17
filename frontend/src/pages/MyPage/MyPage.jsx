@@ -23,7 +23,6 @@ const MyPage = () => {
   const [error, setError] = useState(null);
   const [days, setDays] = useState(7);
 
-  // 요약 카드(TypingSummaryCard)용 통계 데이터 조회
   useEffect(() => {
     const fetchSummary = async () => {
       try {
@@ -50,7 +49,6 @@ const MyPage = () => {
     fetchSummary();
   }, []);
 
-  // 그래프/테이블용 연습 기록 조회
   useEffect(() => {
     const fetchPracticeRecords = async () => {
       try {
@@ -64,19 +62,16 @@ const MyPage = () => {
           }
         );
 
-        // findOne 이면 객체, findAll 이면 배열이 들어올 수 있으므로 통일 처리
         const raw = res.data;
         const list = Array.isArray(raw) ? raw : raw ? [raw] : [];
 
-        // 첫 번째 기록에서 user_id 추출 → 사이드바 프로필에 표시
         if (list.length > 0 && list[0].user_id) {
           setUserId(list[0].user_id);
         }
 
-        // 그래프/테이블에서 바로 사용할 수 있도록 필드 형태 변환
         const mapped = list.map((item, idx) => ({
           id: item.user_id ?? item.id ?? idx,
-          date: item.createdAt, // createdAt → date
+          date: item.createdAt, 
           type: item.type ?? "긴글연습",
           accuracy: item.accuracy,
           maxWpm: item.max_wpm,
