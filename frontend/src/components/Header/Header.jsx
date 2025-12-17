@@ -16,7 +16,6 @@ const Header = () => {
         const response = await axios.get('http://localhost:8080/auth/status', {
           withCredentials: true,
         });
-
         if (response.status === 200 && response.data) {
           setIsLoggedIn(response.data.isLoggedIn);
         }

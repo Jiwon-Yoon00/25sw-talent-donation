@@ -100,6 +100,7 @@ router.get('/summaryCard', isLoggedIn, async (req, res, next) => {
 //api/practice 경로로 post 요청해주시면, 해당 요청을 받아서 데이터베이스에 저장합니다.
 router.post('/practice', isLoggedIn, async (req, res, next) => {
     try {
+        console.log('POST /score 들어옴!', new Date().toISOString());
         const { avgWpm, maxWpm, elapsedTime, accuracy, type } = req.body;
         await Score.create({
             user_id: req.user.user_id,
