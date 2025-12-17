@@ -13,17 +13,14 @@ const Login = () => {
     e.preventDefault();
     console.log('로그인 시도:', id, password);
 
-    // 백엔드 로그인 API 연결
     if (!id || !password) {
       return alert("아이디와 비밀번호를 모두 입력해주세요.");
     }
 
     try {
-      // axios 설정
-      const response = await axios.post(
-        'http://localhost:8080/auth/login', // 백엔드 로그인 예시 주소 (팀원에게 확인)
+      const response = await axios.post('http://localhost:8080/auth/login',
         {
-          username: id,  // Passport는 보통 'username'이라는 이름을 좋아합니다. (팀원 확인 필요)
+          username: id,
           password: password,
         },
         {
@@ -34,13 +31,13 @@ const Login = () => {
       // 로그인 성공 시 (200 OK)
       if (response.status === 200) {
         console.log("로그인 성공!");
-        // 여기서 localStorage에 토큰 저장할 필요 없음 (쿠키가 알아서 함)
         alert("환영합니다! 타자 연습을 시작하세요.");
-        navigate('/');
+        //navigate('/');
+        window.location.href = '/';
       }
 
     } catch (error) {
-      // 에러 처리 (401 Unauthorized 등)
+      // 에러 처리 (401 등)
       console.error("로그인 에러:", error);
       
       if (error.response && error.response.status === 401) {

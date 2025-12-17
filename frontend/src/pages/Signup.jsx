@@ -19,16 +19,14 @@ const Signup = () => {
     try {
       // 서버로 회원가입 요청 보내기
       const response = await axios.post(
-        'http://localhost:8080/auth/signup', // 백엔드 팀원과 주소 맞추기!
+        'http://localhost:8080/auth/signup',
         {
-          // Passport는 보통 'username'이라는 필드명을 기본으로 사용합니다.
-          // 우리 화면엔 '아이디'라고 되어 있지만, 서버엔 'username'으로 보내줌
           username: id,     
           password: password,
           school: school,
         },
         {
-          withCredentials: true, // 혹시 모를 쿠키 설정을 위해 켜두는 게 좋습니다.
+          withCredentials: true,
         }
       );
 
@@ -42,7 +40,7 @@ const Signup = () => {
       // 에러 처리 (이미 있는 아이디 등)
       console.error("회원가입 실패:", error);
 
-      // 백엔드에서 409 Conflict (중복된 아이디) 에러를 보내준다면
+      // 409 Conflict
       if (error.response && error.response.status === 409) {
         alert("이미 사용 중인 아이디입니다. 다른 아이디를 써주세요.");
       } else {

@@ -31,7 +31,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       // 로그아웃 요청
-      await axios.post('http://localhost:8080/auth/logout', {}, {
+      await axios.get('http://localhost:8080/auth/logout', {
         withCredentials: true
       });
 
