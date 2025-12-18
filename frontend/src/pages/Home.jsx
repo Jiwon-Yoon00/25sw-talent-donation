@@ -7,34 +7,14 @@ import './Home.css';
 const Home = () => {
   const navigate = useNavigate();
 
-  // 데이터 (나중에 API로 대체)
-  /*
-  const userRankData = [
-    { name: 'id_34', score: '700타' },
-    { name: 'id_20', score: '626타' },
-    { name: 'id_78', score: '611타' },
-    { name: 'id_02', score: '514타' },
-    { name: 'id_22', score: '222타' },
-  ];
-
-  const schoolRankData = [
-    { name: '항공대' },
-    { name: '연세대' },
-    { name: '고려대' },
-    { name: '덕은초' },
-    { name: '서울대' },
-  ];
-  */
-
   const [userRankData, setUserRankData] = useState([]);
   const [schoolRankData, setSchoolRankData] = useState([]);
 
   useEffect(() => {
-    // 유저 랭킹 데이터 가져오기
+    // 랭킹 데이터 가져오기
     const fetchRankData = async () => {
       try {
-        const userRes = await axios.get(
-          'http://localhost:8080/api/rank',
+        const userRes = await axios.get('http://localhost:8080/api/rank',
           {
             withCredentials:true,
           }
@@ -54,7 +34,6 @@ const Home = () => {
   return (
     <div className="container">      
       <main className="main-content">
-        {/* 2. 랭킹 보드 컴포넌트 사용 */}
         <section className="ranking-section">
           <RankingBoard 
             title="유저 랭킹" 
@@ -70,7 +49,6 @@ const Home = () => {
           />
         </section>
 
-        {/* 3. 시작 버튼 영역*/}
         <section className="start-section">
           <h2 className="start-title">지금 바로 시작하기</h2>
           <div className="button-group">

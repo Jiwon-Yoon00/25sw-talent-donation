@@ -12,7 +12,7 @@ const RankingBoard = ({ title, color, icon, data }) => {
           <div className="avatar" />
           <div className="user-info">
             <div className="user-name">{item.user_id}</div>
-            <div className="user-score">{item.maxAvgWpm}</div>
+            <div className="user-score">{item.maxAvgWpm}타</div>
           </div>
         </div>
       ))}

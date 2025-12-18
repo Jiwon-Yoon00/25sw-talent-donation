@@ -7,7 +7,7 @@ import logoImage from '../assets/logo.png';
 const Signup = () => {
   const navigate = useNavigate();
   
-  // 입력값 상태 관리
+  // 입력값 관리
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,7 +17,7 @@ const Signup = () => {
     e.preventDefault();
     
     try {
-      // 서버로 회원가입 요청 보내기
+      // 회원가입 요청
       const response = await axios.post(
         'http://localhost:8080/auth/signup',
         {
@@ -30,14 +30,14 @@ const Signup = () => {
         }
       );
 
-      // 성공 처리 (201 Created 또는 200 OK)
+      // 성공 처리
       if (response.status === 201 || response.status === 200) {
         alert("회원가입이 완료되었습니다! 로그인 해주세요.");
         navigate('/login');
       }
 
     } catch (error) {
-      // 에러 처리 (이미 있는 아이디 등)
+      // 에러 처리
       console.error("회원가입 실패:", error);
 
       // 409 Conflict
@@ -51,13 +51,11 @@ const Signup = () => {
 
   return (
     <div className="signup-container">
-      {/* 뒤로가기 버튼 */}
       <button className="back-arrow" onClick={() => navigate('/')}>
         ←
       </button>
 
       <div className="signup-box">
-        {/* 왼쪽: 로고 영역 (로그인 페이지와 동일) */}
         <div className="signup-left">
           <div className="logo-box">
             <img src={logoImage} alt="Typing Practice" className="signup-logo-img" />
@@ -65,7 +63,6 @@ const Signup = () => {
           </div>
         </div>
 
-        {/* 오른쪽: 회원가입 폼 영역 */}
         <div className="signup-right">
           <h1 className="signup-title">Sign Up</h1>
           

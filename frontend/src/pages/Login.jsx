@@ -24,7 +24,7 @@ const Login = () => {
           password: password,
         },
         {
-          withCredentials: true, // 쿠키(세션)를 주고받겠다는 설정
+          withCredentials: true, // 쿠키(세션)
         }
       );
 
@@ -37,7 +37,7 @@ const Login = () => {
       }
 
     } catch (error) {
-      // 에러 처리 (401 등)
+      // 에러 처리
       console.error("로그인 에러:", error);
       
       if (error.response && error.response.status === 401) {
@@ -50,15 +50,12 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      {/* 1. 뒤로가기 화살표 */}
       <button className="back-arrow" onClick={() => navigate('/')}>
         ←
       </button>
 
-      {/* 2. 메인 박스 (좌우 분할) */}
       <div className="login-box">
         
-        {/* 왼쪽: 로고/이미지 영역 */}
         <div className="login-left">
           <div className="logo-box">
             <img src={logoImage} alt="Typing Practice" className="login-logo-img" />
@@ -66,7 +63,6 @@ const Login = () => {
           </div>
         </div>
 
-        {/* 오른쪽: 입력 폼 영역 */}
         <div className="login-right">
           <h1 className="login-title">Login</h1>
           
